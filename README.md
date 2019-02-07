@@ -1,13 +1,20 @@
+
 # Angular Material Dynamic Navigation using Firestore
 
 The goal of this lesson is to take our [Lesson 10 - Angular Material Theming](http://ajonp.com/lessons/10-angular-material-theming/) and add navigational elements. The two for this lesson will include [Angular Material Tree](https://material.angular.io/components/tree/overview) and [Angular Material Expansion Panel](https://material.angular.io/components/expansion/overview).
 
-## Lesson Steps
+If you are well versed in Firebase and are just wondering how to get this tree to work with Firestore, you might want to jump to [Tree](#tree) portion of this lesson.
+<h3>
+🌎 Demo: [https://ajonp-lesson-11.firebaseapp.com/books/](https://ajonp-lesson-11.firebaseapp.com/books/)
+</h3>
 
-1. []()
+## Lesson Steps
+1. [Project Setup](#project-setup)
+1. [Firestore](#firestore)
+1. [Router Updates](#router-updates)
+1. [Component Updates](#component-updates)
 
 # Project Setup
-
 ## Create Firebase Project
 
 Angular Firebase has an amazing guide for this [Beginners Guide to Firebase](https://angularfirebase.com/lessons/the-ultimate-beginners-guide-to-firebase/), so you could check that out as well.
@@ -17,88 +24,72 @@ Angular Firebase has an amazing guide for this [Beginners Guide to Firebase](htt
 Please navigate to [Firebase Console](https://console.firebase.google.com/) here you can create a new project with any name that you would like. Once inside of your new project please create a firestore database, under the `Database` tab.
 
 When prompted select `locked mode`.
-![Firestore Locked Mode](https://res.cloudinary.com/ajonp/image/upload/v1548346547/ajonp-ajonp-com/11-lesson-angular-navigation-firestore/krp63uw43udiq94ndkrw.jpg)
+![Firestore Locked Mode](https://res.cloudinary.com/ajonp/image/upload/f_auto,fl_lossy,q_auto/v1548346547/ajonp-ajonp-com/11-lesson-angular-navigation-firestore/krp63uw43udiq94ndkrw.jpg)
 
-## GitHub Lesson 10 clone
 
+## GitHub Lesson 10 clone 
 For our starter template we will use our previes lesson repo, make sure you are in a directory you would like to place the repo locally and begin work.
 
 In your terminal, clone the repo to a new folder
-
 ```sh
 git clone https://github.com/AJONPLLC/lesson-10-angular-material-theming.git lesson-11
 ```
-
 Remove the old origin
-
 ```sh
 git remote rm origin
 ```
-
 You can then add your own git repo if you would like, or just track changes locally.
 Add remote
-
 ```sh
 git remote add origin -yourgiturl-
 ```
-
 ## Add firebase
-
 > If you have not yet downloaded firebase CLI please install `npm install -g firebase-tools`.
 
 After install
-
 ```sh
-firebase login
+firebase login 
 ```
-
 Now we will initialize this project
-
 ```sh
 firebase init
 ```
-
 Make sure to select Firestore, and accept all other defaults
-![Firebase init](https://res.cloudinary.com/ajonp/image/upload/v1548346992/ajonp-ajonp-com/11-lesson-angular-navigation-firestore/x7r97se1ymusolimrtfz.jpg)
+
+![Firebase init](https://res.cloudinary.com/ajonp/image/upload/f_auto,fl_lossy,q_auto/v1548346992/ajonp-ajonp-com/11-lesson-angular-navigation-firestore/x7r97se1ymusolimrtfz.jpg)
 
 You will then need to add firebase to your project, again please checkout the link from above how to do this, of follow the video.
 
 # Firestore
 
 ## Firestore Service Creation
-
 > If you don't have the Angular CLI `npm install -g @angular/cli`.
 
 Using the Angular CLI we will start by creating a service.
-
 ```sh
 ng g service core/services/firestore
 ```
 
-This service will allow us to connect to Firebase Firestore.
+This service will allow us to connect to Firebase Firestore. 
 
 ## Firestore Database Setup
-
 We want to build this structure inside of Firestore
-![Firestore Hierarchy](https://res.cloudinary.com/ajonp/image/upload/v1548347396/ajonp-ajonp-com/11-lesson-angular-navigation-firestore/books_hierarchy.png)
+![Firestore Hierarchy](https://res.cloudinary.com/ajonp/image/upload/f_auto,fl_lossy,q_auto/v1548347396/ajonp-ajonp-com/11-lesson-angular-navigation-firestore/books_hierarchy.png)
 
 In Firestore we will setup this basic structure. Remember every collection must have a document. You can find more in the [Firestore Docs Overview](https://cloud.google.com/firestore/docs/overview)
 
-<video poster="https://res.cloudinary.com/ajonp/image/upload/v1548347396/ajonp-ajonp-com/11-lesson-angular-navigation-firestore/books_hierarchy.png" controls>
+<video poster="https://res.cloudinary.com/ajonp/image/upload/f_auto,fl_lossy,q_auto/v1548347396/ajonp-ajonp-com/11-lesson-angular-navigation-firestore/books_hierarchy.png" controls>
 <source src="https://res.cloudinary.com/ajonp/video/upload/v1548347631/ajonp-ajonp-com/11-lesson-angular-navigation-firestore/_firebase_setup.webm" type="video/webm">
 <source src="https://res.cloudinary.com/ajonp/video/upload/v1548347631/ajonp-ajonp-com/11-lesson-angular-navigation-firestore/_firebase_setup.mp4" type="video/mp4">
 </video>
 
 ## Add Angular Firebase Service
-
 This service was somthing that was created by Jeff in [Advanced Firestore Usage Guide with Angular](https://angularfirebase.com/lessons/firestore-advanced-usage-angularfire/)
 
 ```sh
 ng g service core/services/angularfirebase
 ```
-
-Code
-
+Code 
 ```ts
 import { Injectable } from '@angular/core';
 import {
@@ -451,15 +442,12 @@ export class FirestoreService {
 ```
 
 # Router Updates
-
 The following routes are setup in order of which they will lazy load and be traversed to display the books path.
 
 ## App Router
-
 Need to update the main router to reference books
 
 app-routing.module.ts
-
 ```ts
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -492,11 +480,9 @@ export class AppRoutingModule {}
 ```
 
 ## Book Top Level Router
-
 In our updated setup for our book router we need to lazy load the book list (for all of our books), as well as the book detail (for a single book).
 
 books-routing.modules.ts
-
 ```ts
 import { BooksComponent } from './books.component';
 import { NgModule } from '@angular/core';
@@ -527,7 +513,6 @@ export class BooksRoutingModule {}
 ```
 
 ## Book Detail Router
-
 Remember this is where we added the named outlet in the last lesson `book-drawer`. This component is where we will focus on loading our new tree.
 
 ```ts
@@ -552,7 +537,7 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class BookDetailRoutingModule {}
+export class BookDetailRoutingModule { }
 ```
 
 # Component Updates
@@ -560,15 +545,12 @@ export class BookDetailRoutingModule {}
 Now that we have all the plumbing set we can add a new component to our `book-drawer` component.
 
 ## Create book-list
-
-We need to first be able to select a book before navigating to the book detail. For this we will create a book-list module.
-
+We need to first be able to select a book before navigating to the book detail. For this we will create a book-list module. 
 ```sh
 ng g m modules/books/book-list && ng g c modules/books/book-list
 ```
 
 ### Expansion Panel for book-list
-
 ```html
 <mat-accordion [displayMode]="'flat'">
   <mat-expansion-panel [expanded]="rlaBooks.isActive">
@@ -628,7 +610,7 @@ ng g m modules/books/book-list && ng g c modules/books/book-list
 </mat-accordion>
 ```
 
-### Populating the expansion panel
+### Populating the expansion panel 
 
 Use the firestore service to populate the Observables for each book.
 
@@ -651,6 +633,8 @@ export class BookListComponent implements OnInit {
   }
 }
 ```
+
+
 
 ## Create book-tree
 
@@ -685,7 +669,6 @@ ng g m modules/books/book-tree && ng g c modules/books/book-tree
 ```
 
 I will break down this entire comopnent in further detail below, for now here is the code.
-
 ```ts
 import { Book } from 'src/app/core/models/book';
 import { Injectable, Component, OnInit, OnDestroy } from '@angular/core';
@@ -900,19 +883,97 @@ export class BookTreeComponent implements OnInit, OnDestroy {
 ```
 
 ### Reference book-tree inside book-drawer
-
 We can now update `book-drawer`.
 
 book-drawer.component.html
-
 ```html
 <app-book-tree></app-book-tree>
 ```
 
 Please make sure to also import `BookTreeModule` in `book-drawer.module.ts`.
-
 ```ts
 ...
  imports: [CommonModule, BookTreeModule],
 ...
+```
+# Tree
+
+[Angular Material Tree](https://material.angular.io/components/tree/overview)
+
+## Breaking down the dynamic Tree
+
+There are two key directives that drive the dynamic tree `dataSource` and `treeControl`.
+
+- dataSource: Provides a stream containing the latest data array to render. Influenced by the tree's stream of view window (what dataNodes are currently on screen). Data source can be an observable of data array, or a data array to render.
+- treeControl: Controls layout and functionality of the visual tree.
+
+book-tree.comopnent.html
+```html
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+```
+
+### dataSource
+In our example we assign dataSource to a new object from class `DynamicDataSource`. This class is passed off the necessary dependency injected classes that we will need from our `BookTreeComponent`.
+
+```ts
+    this.dataSource = new DynamicDataSource(
+      this.treeControl,
+      this.route,
+      this.fs,
+      this.router
+    );
+```
+
+### DynamicDataSource
+The `DynamicDataSource's` main job is to get initial data for the setup of the tree, control the flow of any additional data, and react when the tree is toggled.
+
+The data type that we are using in our tree is defined by class `DynamicFlatNode`, this class holds the data that we use throughout our tree as an array. Maybe better put our Tree is made up of an Array of `DynamicFlatNode`.
+
+```ts
+export class DynamicFlatNode {
+  constructor(
+    public item: string,
+    public level = 1,
+    public expandable = false,
+    public isLoading = false,
+    public book?: Book,
+    public chapter?: Chapter,
+    public section?: Section
+  ) {}
+}
+```
+
+You can see in the first line of `DynamicDataSource` that we create a new BehaviorSubject for the array. This makes essentially an empty array for the tree's `dataSource`. 
+
+```ts
+export class DynamicDataSource {
+  dataChange = new BehaviorSubject<DynamicFlatNode[]>([]);
+```
+
+For our example we set the initial data for this by subscribing to our `bookId` and getting the corresponding book's chapters. You will notice that we create a `DynamicFlatNode` Object and add that to the array `nodes`. We then assign `DynamicDataSource`'s `data` property the array that we have created. 
+
+```ts
+    /** Initial data from database */
+    this.subscriptions.push(
+      this.route.paramMap.subscribe(paramMap => {
+        const bookId = paramMap.get('bookId');
+        this.fs.getBookChapters(bookId).subscribe(chapters => {
+          const nodes: DynamicFlatNode[] = [];
+          chapters.sort((a, b) => (a.sort < b.sort ? -1 : 1));
+          chapters.forEach(chapter =>
+            nodes.push(
+              new DynamicFlatNode(
+                chapter.title, // chapter title
+                0, // Tree Level
+                true, // Expandable
+                false, // Is Loading
+                { id: bookId }, // Object representing book
+                chapter // Object for our current Chapter from firestore
+              )
+            )
+          );
+          this.data = nodes;
+        });
+      })
+    );
 ```
